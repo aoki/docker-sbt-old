@@ -1,4 +1,4 @@
-FROM java:8-jre-alpine
+FROM java:8-jdk-alpine
 
 ENV SBT_VERSION 0.13.13
 ENV SBT_HOME /usr/local/sbt-launcher-packaging-${SBT_VERSION}
