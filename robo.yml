@@ -1,11 +1,23 @@
 ls:
-  summary: List releases
-  command: printf "sbt\n"; curl -s "https://api.github.com/repos/sbt/sbt/releases" | jq -r '.[].tag_name'
+  summary: List sbt releases using GitHub API token
+  command: |
+    curl -u ${GITHUB_USER}:${GITHUB_TOKEN} -s "https://api.github.com/repos/sbt/sbt/releases" | \
+    jq -r '.[].tag_name' | cut -c 2-
+
+sbtls:
+  summary: List sbt releases
+  command: curl -s "https://api.github.com/repos/sbt/sbt/releases" | jq -r '.[].tag_name' | cut -c 2-
 
 build:
-  summary:  Running docker build command
+  summary:  Execute docker build command
   usage:    '[sbt version]'
   examples:
     - description: Build docker image for the sbt 0.13.13
       command: robo build 0.13.13
-  command:  docker build -t ringo/sbt:${1} .
+  command: \ls | grep -v *.yml | fzf | xargs -IXXX docker build -t ringo/sbt:XXX XXX/.
+
+push:
+  summary: Execute dokcer push command
+  command: |
+    docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD && \
+    \ls | grep -v *.yml | fzf | xargs -IXXX docker push ringo/sbt:XXX
