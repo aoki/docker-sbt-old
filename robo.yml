@@ -1,0 +1,11 @@
+ls:
+  summary: List releases
+  command: printf "sbt\n"; curl -s "https://api.github.com/repos/sbt/sbt/releases" | jq -r '.[].tag_name'
+
+build:
+  summary:  Running docker build command
+  usage:    '[sbt version]'
+  examples:
+    - description: Build docker image for the sbt 0.13.13
+      command: robo build 0.13.13
+  command:  docker build -t ringo/sbt:${1} .
