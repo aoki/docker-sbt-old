@@ -8,6 +8,6 @@ RUN apk add --no-cache --update git curl build-base autoconf automake libtool g+
   && ./autogen.sh && ./configure --prefix=/usr && make && make check && make install && make clean \
   && cd ../ \
   && rm -rf ./protobuf \
-  && apk del git curl build-base autoconf automake libtool g++ unzip make \
+  && apk del curl build-base autoconf automake libtool g++ unzip make \
   && apk add --no-cache --update libstdc++ \
   && rm -rf /var/cache/apk/*
